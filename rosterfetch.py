@@ -2,8 +2,8 @@ from datetime import datetime
 from sportsipy.nhl.boxscore import Boxscores, Boxscore
 import json
 
-games = Boxscores(datetime(2015, 10, 7), datetime(2016, 4, 10))
-# games = Boxscores(datetime(2015, 10, 7), datetime(2015, 10, 7))
+# games = Boxscores(datetime(2016, 10, 12), datetime(2017, 6, 11))
+games = Boxscores(datetime(2018, 10, 3), datetime(2019, 4, 6))
 
 games_list = []
 denom = len(games.games)
@@ -38,7 +38,7 @@ for day in games.games:
             home_players.append(player.name)
         match_dict["home_players"] = home_players
 
-        # create list of home players
+        # create list of away players
         away_players = []
         for player in box_score.away_players:
             away_players.append(player.name)
@@ -50,5 +50,5 @@ for day in games.games:
 
 
 print(games_list)
-with open('2015-2016.json', 'w') as fout:
+with open('Data/jsons/2018_2019.json', 'w') as fout:
     json.dump(games_list, fout)
