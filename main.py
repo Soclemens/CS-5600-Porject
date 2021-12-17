@@ -26,7 +26,7 @@ def model_2():
     net = fully_connected(net, 2500)
     net = dropout(net, .25)
     net = fully_connected(net, 100)
-    net = fully_connected(net, 1, activation="softmax")
+    net = fully_connected(net, 1, activation="sigmoid")
     network = regression(net, optimizer='sgd', loss='binary_crossentropy', learning_rate=0.01)
 
     return network
