@@ -24,7 +24,7 @@ def model_2():
     net = input_data(shape=[None, 901, 1])
     net = fully_connected(net, 1800)
     net = fully_connected(net, 2500)
-    net = dropout(.25)
+    net = dropout(net, .25)
     net = fully_connected(net, 100)
     net = fully_connected(net, 1, activation="softmax")
     network = regression(net, optimizer='sgd', loss='binary_crossentropy', learning_rate=0.01)
