@@ -27,14 +27,14 @@ def test_tfl_image_ann_model(network_model, valid_X, valid_Y):
     results = []
     for i in range(len(valid_X)):
         prediction = network_model.predict(valid_X[i].reshape([-1, 901, 1]))
-        print(prediction[0][0])
+        # print(prediction[0][0])
         results.append(prediction[0][0] == valid_Y[i][0])
     return float(sum((np.array(results) == True))) / float(len(results))
 
 
 # train a tfl model on train_X, train_Y, test_X, test_Y.
 def train_tfl_image_ann_model(model, train_X, train_Y, test_X, test_Y, num_epochs=1, batch_size=10):
-  # tf.compat.v1.reset_default_graph()
+  tf.compat.v1.reset_default_graph()
   model.fit(train_X, train_Y, n_epoch=num_epochs,
             validation_set=(test_X, test_Y),
             show_metric=True,
@@ -46,7 +46,7 @@ def validate_tfl_image_ann_model(model, valid_X, valid_Y):
     return test_tfl_image_ann_model(model, valid_X, valid_Y)
 
 
-tflearn.init_graph(num_cores=8, gpu_memory_fraction=.25)  # guess this allows for faster training
+tflearn.init_graph(num_cores=8)  # guess this allows for faster training
 
 base_bath = "Data/pickles/"  # change as needed!
 

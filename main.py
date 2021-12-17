@@ -11,47 +11,24 @@ from tflearn.layers.estimator import regression
 #####################################################
 def model_1():
     net = input_data(shape=[None, 901, 1])
-    net = highway(net, 901, activation="linear")
     net = fully_connected(net, 1800)
     net = fully_connected(net, 1000)
-    net = dropout(net, .90)
-    net = fully_connected(net, 902, activation="linear")
     net = fully_connected(net, 100)
     net = fully_connected(net, 1, activation="softmax")
-    network = regression(net, optimizer='adam', loss='binary_crossentropy', learning_rate=0.1)
+    network = regression(net, optimizer='sgd', loss='binary_crossentropy', learning_rate=0.01)
 
     return network
 
 
 def model_2():
-    input_layer = input_data(shape=[None, 901, 1])
-    fc_layer_1 = fully_connected(input_layer, 1000,
-                                 activation='linear',
-                                 name='fc_layer_2')
-    fc_layer_2 = fully_connected(fc_layer_1, 2000,
-                                 activation='linear',
-                                 name='fc_layer_2')
-    fc_layer_3 = fully_connected(fc_layer_2, 3000,
-                                 activation='linear',
-                                 name='fc_layer_3')
-    fc_layer_4 = fully_connected(fc_layer_3, 4000,
-                                 activation='softmax',
-                                 name='fc_layer_4')
-    fc_layer_5 = fully_connected(fc_layer_4, 5000,
-                                 activation='linear',
-                                 name='fc_layer_5')
-    fc_layer_6 = fully_connected(fc_layer_5, 6000,
-                                 activation='linear',
-                                 name='fc_layer_6')
-    fc_layer_7 = fully_connected(fc_layer_6, 1,
-                                 activation='linear',
-                                 name='fc_layer_7')
-    network = regression(fc_layer_7, optimizer='sgd',
-                         loss='categorical_crossentropy',
-                         learning_rate=0.0001)
+    net = input_data(shape=[None, 901, 1])
+    net = fully_connected(net, 1800)
+    net = fully_connected(net, 2500)
+    net = dropout(.25)
+    net = fully_connected(net, 100)
+    net = fully_connected(net, 1, activation="softmax")
+    network = regression(net, optimizer='sgd', loss='binary_crossentropy', learning_rate=0.01)
 
-    # model = DNN(network, tensorboard_verbose=3)
-    # print(model.get_weights(fc_layer_6.W))
     return network
 #####################################################
 
@@ -74,7 +51,7 @@ def train_models(pair):
 
 
 def train_all_models():
-    known_training = [(model_1, "model_1")]  # (model_1, "model_1"),
+    known_training = [(model_1, "model_1"), (model_2, "model_2")]  # (model_1, "model_1"),
     validations = []
     for pair in known_training:
         validations.append(train_models(pair))
