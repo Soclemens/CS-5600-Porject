@@ -27,7 +27,7 @@ def test_tfl_image_ann_model(network_model, valid_X, valid_Y):
     results = []
     for i in range(len(valid_X)):
         prediction = network_model.predict(valid_X[i].reshape([-1, 901, 1]))
-        # print(prediction[0][0])
+        print(prediction[0][0])
         results.append(prediction[0][0] == valid_Y[i][0])
     return float(sum((np.array(results) == True))) / float(len(results))
 
@@ -38,6 +38,7 @@ def train_tfl_image_ann_model(model, train_X, train_Y, test_X, test_Y, num_epoch
   model.fit(train_X, train_Y, n_epoch=num_epochs,
             validation_set=(test_X, test_Y),
             show_metric=True,
+            shuffle=True,
             batch_size=batch_size,
             run_id='image_ann_model')
 
@@ -63,5 +64,6 @@ print(len(validate_x))
 print(len(test_x))
 print(len(train_x))
 
+print(train_x.shape)
 train_x = train_x.reshape([-1, 901, 1])
 test_x = test_x.reshape([-1, 901, 1])

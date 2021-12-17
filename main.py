@@ -2,9 +2,9 @@ import tflearn
 import tensorflow as tf
 from tfl_image_anns import *
 from os.path import exists
-from tflearn.layers.core import input_data, fully_connected, highway, dropout
-from tflearn.layers.conv import conv_2d, max_pool_2d, atrous_conv_2d, upscore_layer
-from tflearn.layers import normalization
+from tflearn.layers.core import input_data, fully_connected, activation, dropout
+from tflearn.layers.recurrent import simple_rnn
+from tflearn.layers.normalization import batch_normalization
 from tflearn.layers.estimator import regression
 # Models
 
@@ -22,12 +22,18 @@ def model_1():
 
 def model_2():
     net = input_data(shape=[None, 901, 1])
-    net = fully_connected(net, 1800)
-    net = fully_connected(net, 2500)
-    net = dropout(net, .25)
-    net = fully_connected(net, 100)
-    net = fully_connected(net, 1, activation="sigmoid")
-    network = regression(net, optimizer='sgd', loss='binary_crossentropy', learning_rate=0.01)
+    net = batch_normalization(net)
+    net = fully_connected(net, 180)
+    net = fully_connected(net, 250)
+    net = fully_connected(net, 500, activation="Relu")
+    net = dropout(net, .025)
+    net = fully_connected(net, 1000)
+    net = activation(net, activation="prelu")
+    net = fully_connected(net, 950)
+    net = fully_connected(net, 500, activation="linear")
+    net = dropout(net, .5)
+    net = fully_connected(net, 1, activation="softmax")
+    network = regression(net, optimizer='sgd', loss='binary_crossentropy', learning_rate=0.001)
 
     return network
 #####################################################
@@ -66,5 +72,6 @@ def rank_models():
         img_ann = load_image_ann_model(pair[0], pair[1]())
         print(pair[0].split("/")[1] + ": ", validate_tfl_image_ann_model(img_ann, validate_x, validate_y))
 
-
-print(train_all_models())
+while True:
+# print(train_all_models())
+    print(train_all_models())

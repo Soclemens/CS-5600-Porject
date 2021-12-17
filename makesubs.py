@@ -54,7 +54,7 @@ x = pd.concat([X_2015_2016, X_2016_2017, X_2017_2018, X_2018_2019])
 y = pd.concat([Y_2015_2016, Y_2016_2017, Y_2017_2018, Y_2018_2019])
 
 # attempt to standardize
-x = (x - x.min()) / (x.max() - x.min())
+# x = (x - x.min()) / (x.max() - x.min())
 
 del X_2015_2016, X_2016_2017, X_2017_2018, X_2018_2019
 del Y_2015_2016, Y_2016_2017, Y_2017_2018, Y_2018_2019
@@ -133,3 +133,7 @@ filename = 'validate_y.pck'
 outfile = open("Data/pickles/" + filename, 'wb')
 pickle.dump(validate_y, outfile)
 outfile.close()
+
+#
+# train_x = train_x.reshape([-1, 902, 1])
+# test_x = test_x.reshape([-1, 902, 1])
