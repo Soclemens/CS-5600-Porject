@@ -53,13 +53,16 @@ del year_2017_2018_Y
 x = pd.concat([X_2015_2016, X_2016_2017, X_2017_2018, X_2018_2019])
 y = pd.concat([Y_2015_2016, Y_2016_2017, Y_2017_2018, Y_2018_2019])
 
+# attempt to standardize
+# x = (x - x.min()) / (x.max() - x.min())
+
 del X_2015_2016, X_2016_2017, X_2017_2018, X_2018_2019
 del Y_2015_2016, Y_2016_2017, Y_2017_2018, Y_2018_2019
 
 print("Shape of X: ", x.shape)
 print("Shape of Y: ", y.shape)
 x = x.replace(np.nan, 0)
-
+x = x.drop(columns=[15])
 train_x = pd.DataFrame()
 test_x = pd.DataFrame()
 validate_x = pd.DataFrame()
@@ -69,6 +72,7 @@ test_y = pd.DataFrame()
 validate_y = pd.DataFrame()
 
 # this for loop takes about 2 minutes to run...
+print("entering loop that takes forever")
 for i in range(x.shape[0]):
     if i % 10 >= 0 and i % 10 <= 7:
 
@@ -89,14 +93,14 @@ print(validate_y.shape)
 print(train_y.shape)
 print(test_y.shape)
 
-train_x = train_x.to_numpy()
-train_y = train_y.to_numpy()
+train_x = train_x.to_numpy(dtype=float)
+train_y = train_y.to_numpy(dtype=float)
 
-test_x = test_x.to_numpy()
-test_y = test_y.to_numpy()
+test_x = test_x.to_numpy(dtype=float)
+test_y = test_y.to_numpy(dtype=float)
 
-validate_x = validate_x.to_numpy()
-validate_y = validate_y.to_numpy()
+validate_x = validate_x.to_numpy(dtype=float)
+validate_y = validate_y.to_numpy(dtype=float)
 
 # Make pickle files so we only have to do all of this once
 ###########################################
@@ -129,7 +133,3 @@ filename = 'validate_y.pck'
 outfile = open("Data/pickles/" + filename, 'wb')
 pickle.dump(validate_y, outfile)
 outfile.close()
-
-#
-# train_x = train_x.reshape([-1, 902, 1])
-# test_x = test_x.reshape([-1, 902, 1])
