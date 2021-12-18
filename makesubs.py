@@ -42,7 +42,7 @@ del year_2015_2016_Y
 del year_2016_2017_Y
 del year_2017_2018_Y
 
-# Just the columns need to be the same size as there can be different games played year to year
+# Just the columns need to be the same size as there can be different game_outcomes played year to year
 # the rows are a game so there columns need to be the same size
 # print(X_2015_2016.shape)
 # print(X_2016_2017.shape)
